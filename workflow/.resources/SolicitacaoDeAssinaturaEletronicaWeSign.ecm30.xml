@@ -103,8 +103,8 @@
         <version>1</version>
         <sequence>5</sequence>
       </processStatePK>
-      <stateName>Act1</stateName>
-      <stateDescription>Act1</stateDescription>
+      <stateName>Aprovacao</stateName>
+      <stateDescription>Aprovacao</stateDescription>
       <instruction></instruction>
       <deadlineTime>0</deadlineTime>
       <deadlineFieldName></deadlineFieldName>
@@ -125,7 +125,7 @@
       <notifyRequisitionerFollowUp>false</notifyRequisitionerFollowUp>
       <automatic>false</automatic>
       <positionX>260</positionX>
-      <positionY>208</positionY>
+      <positionY>201</positionY>
       <forecastedEffortType>0</forecastedEffortType>
       <forecastedEffort>0</forecastedEffort>
       <notifyManagerFollowUp>false</notifyManagerFollowUp>
@@ -145,6 +145,53 @@
       <destinationStates/>
       <digitalSignature>false</digitalSignature>
       <executionType>0</executionType>
+    </ProcessState>
+    <ProcessState>
+      <processStatePK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
+        <sequence>7</sequence>
+      </processStatePK>
+      <stateName>Fim</stateName>
+      <stateDescription>Fim</stateDescription>
+      <instruction>Atividade final do processo</instruction>
+      <deadlineTime>0</deadlineTime>
+      <joint>false</joint>
+      <agreementPercentage>0</agreementPercentage>
+      <engineAllocationId></engineAllocationId>
+      <engineAllocationConfiguration></engineAllocationConfiguration>
+      <selectColleague>0</selectColleague>
+      <initialState>false</initialState>
+      <notifyAuthorityDelay>true</notifyAuthorityDelay>
+      <notifyRequisitionerDelay>false</notifyRequisitionerDelay>
+      <allowanceAuthorityTime>0</allowanceAuthorityTime>
+      <frequenceAuthorityTime>1</frequenceAuthorityTime>
+      <allowanceRequisitionerTime>0</allowanceRequisitionerTime>
+      <frequenceRequisitionerTime>0</frequenceRequisitionerTime>
+      <transferAttachments>false</transferAttachments>
+      <subProcessId></subProcessId>
+      <formFolder>0</formFolder>
+      <notifyAuthorityFollowUp>false</notifyAuthorityFollowUp>
+      <notifyRequisitionerFollowUp>false</notifyRequisitionerFollowUp>
+      <automatic>false</automatic>
+      <positionX>470</positionX>
+      <positionY>211</positionY>
+      <forecastedEffortType>0</forecastedEffortType>
+      <forecastedEffort>0</forecastedEffort>
+      <notifyManagerFollowUp>false</notifyManagerFollowUp>
+      <notifyManagerDelay>false</notifyManagerDelay>
+      <allowanceManagerTime>0</allowanceManagerTime>
+      <frequenceManagerTime>0</frequenceManagerTime>
+      <inhibitTransfer>false</inhibitTransfer>
+      <periodId></periodId>
+      <stateType>6</stateType>
+      <bpmnType>60</bpmnType>
+      <signalId>0</signalId>
+      <counterSign>false</counterSign>
+      <openInstances>0</openInstances>
+      <destinationStates/>
+      <digitalSignature>false</digitalSignature>
     </ProcessState>
   </list>
   <list/>
@@ -166,9 +213,77 @@
       <defaultLink>false</defaultLink>
       <type>0</type>
     </ProcessLink>
+    <ProcessLink>
+      <processLinkPK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
+        <linkSequence>8</linkSequence>
+      </processLinkPK>
+      <actionLabel></actionLabel>
+      <returnPermited>false</returnPermited>
+      <initialStateSequence>5</initialStateSequence>
+      <finalStateSequence>7</finalStateSequence>
+      <returnLabel></returnLabel>
+      <name></name>
+      <automaticLink>false</automaticLink>
+      <defaultLink>false</defaultLink>
+      <type>0</type>
+    </ProcessLink>
   </list>
   <list/>
-  <list/>
+  <list>
+    <WorkflowProcessEvent>
+      <workflowProcessEventPK>
+        <companyId>1</companyId>
+        <eventId>beforeTaskSave</eventId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
+      </workflowProcessEventPK>
+      <eventDescription>function beforeTaskSave(colleagueId, nextSequenceId, userList) {&#xd;
+&#xd;
+&#xd;
+&#xd;
+}&#xd;
+&#xd;
+&#xd;
+function CriaAssinatura() {&#xd;
+    var NomeArquivo = hAPI.getCardValue(&quot;docName&quot;);&#xd;
+    var IdArquivo = hAPI.getCardValue(&quot;docId&quot;);&#xd;
+    var CodRemetente = hAPI.getCardValue(&quot;solicitante&quot;);&#xd;
+&#xd;
+    var ds = DatasetFactory.getDataset(&quot;ds_auxiliar_wesign&quot;, null, [&#xd;
+        DatasetFactory.createConstraint(&quot;nmArquivo&quot;, NomeArquivo, NomeArquivo, ConstraintType.MUST),&#xd;
+        DatasetFactory.createConstraint(&quot;codArquivo&quot;, IdArquivo, IdArquivo, ConstraintType.MUST),&#xd;
+        DatasetFactory.createConstraint(&quot;vrArquivo&quot;, &quot;1000&quot;, &quot;1000&quot;, ConstraintType.MUST),&#xd;
+        DatasetFactory.createConstraint(&quot;codPasta&quot;, &quot;655172&quot;, &quot;655172&quot;, ConstraintType.MUST),&#xd;
+        DatasetFactory.createConstraint(&quot;codRemetente&quot;, CodRemetente, CodRemetente, ConstraintType.MUST),&#xd;
+        DatasetFactory.createConstraint(&quot;nmRemetente&quot;, BuscaNomeUsuario(CodRemetente), BuscaNomeUsuario(CodRemetente), ConstraintType.MUST),&#xd;
+        DatasetFactory.createConstraint(&quot;status&quot;, &quot;Enviando para assinatura&quot;, &quot;Enviando para assinatura&quot;, ConstraintType.MUST),&#xd;
+        DatasetFactory.createConstraint(&quot;metodo&quot;, &quot;create&quot;, &quot;create&quot;, ConstraintType.MUST),&#xd;
+        DatasetFactory.createConstraint(&quot;jsonSigners&quot;, hAPI.getCardValue(&quot;jsonSigner&quot;), hAPI.getCardValue(&quot;jsonSigner&quot;), ConstraintType.MUST),&#xd;
+        DatasetFactory.createConstraint(&quot;numSolic&quot;, getValue(&quot;WKNumProces&quot;), getValue(&quot;WKNumProces&quot;), ConstraintType.MUST)&#xd;
+    ], null);&#xd;
+&#xd;
+    if (dsAux.rowsCount &gt; 0) {&#xd;
+        if (ds.getValue(0, &quot;Result&quot;) === &quot;OK&quot;) {&#xd;
+            return true;&#xd;
+        }&#xd;
+    }&#xd;
+&#xd;
+    throw &quot;Erro ao Criar a Assinatura Eletrôncia!&quot;;&#xd;
+}&#xd;
+&#xd;
+&#xd;
+function BuscaNomeUsuario(CodUsuario) {&#xd;
+    var ds = DatasetFactory.getDataset(&quot;colleague&quot;, [&quot;colleagueName&quot;], [&#xd;
+        DatasetFactory.createConstraint(&quot;colleagueId&quot;, CodUsuario, CodUsuario, ConstraintType.MUST)&#xd;
+    ], null);&#xd;
+&#xd;
+    return ds.getValue(0, &quot;colleagueName&quot;);&#xd;
+}</eventDescription>
+    </WorkflowProcessEvent>
+  </list>
   <list/>
   <list>
     <SwimLane>
@@ -220,32 +335,8 @@
       </swimLanePK>
     </SwimLane>
   </list>
-  <list>
-    <ProcessComponGraf>
-      <componType>1</componType>
-      <positionX>210</positionX>
-      <positionY>20</positionY>
-      <processComponGrafPK>
-        <companyId>1</companyId>
-        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
-        <version>1</version>
-        <componGrafSequence>7</componGrafSequence>
-      </processComponGrafPK>
-      <stateName>Start</stateName>
-    </ProcessComponGraf>
-  </list>
-  <list>
-    <ProcessLinkAssoc>
-      <processLinkAssocPK>
-        <companyId>1</companyId>
-        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
-        <version>1</version>
-        <linkSequence>8</linkSequence>
-      </processLinkAssocPK>
-      <initialStateSequence>7</initialStateSequence>
-      <finalStateSequence>4</finalStateSequence>
-    </ProcessLinkAssoc>
-  </list>
+  <list/>
+  <list/>
   <list>
     <ProcessLinkBend>
       <processLinkBendPK>
@@ -255,19 +346,8 @@
         <linkSequence>6</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
-      <positionX>167</positionX>
-      <positionY>235</positionY>
-    </ProcessLinkBend>
-    <ProcessLinkBend>
-      <processLinkBendPK>
-        <companyId>1</companyId>
-        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
-        <version>1</version>
-        <linkSequence>8</linkSequence>
-        <bendSequence>1</bendSequence>
-      </processLinkBendPK>
-      <positionX>167</positionX>
-      <positionY>48</positionY>
+      <positionX>166</positionX>
+      <positionY>228</positionY>
     </ProcessLinkBend>
   </list>
   <list/>

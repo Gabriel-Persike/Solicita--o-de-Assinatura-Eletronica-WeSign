@@ -1,3 +1,5 @@
+ModalNovoAssinante = null;
+
 function criaDocNoFluig(file) {
     return new Promise((resolve, reject) => {
         var reader = new FileReader();
@@ -9,7 +11,7 @@ function criaDocNoFluig(file) {
                 DatasetFactory.createConstraint("conteudo", bytes, bytes, ConstraintType.MUST),
                 DatasetFactory.createConstraint("nome", nomeArquivo, nomeArquivo, ConstraintType.SHOULD),
                 DatasetFactory.createConstraint("descricao", nomeArquivo, nomeArquivo, ConstraintType.SHOULD),
-                DatasetFactory.createConstraint("pasta", 266779, 266779, ConstraintType.SHOULD)
+                DatasetFactory.createConstraint("pasta", 655172, 655172, ConstraintType.SHOULD)
             ], null, {
                 success: (res => {
                     if (!res || res == "" || res == null) {
@@ -42,4 +44,49 @@ function criaDocNoFluig(file) {
 
         reader.readAsDataURL(file);
     });
+}
+
+function AbreModalNovoAssinante(onCadastrarAssinante) {
+    ModalNovoAssinante = FLUIGC.modal({
+        title: 'Cadastrar Novo Assinante',
+        content: '<div id="rootNovoAssinante"></div>',
+        id: 'ModalNovoAssinante',
+        actions: [{
+            'label': 'Cadastrar Assinante',
+            "classType": "btn-success",
+            'bind': 'btn-Criar-Novo-Assinante',
+        }, {
+            'label': 'Cancelar',
+            'autoClose': true
+        }]
+    }, function (err, data) {
+        if (err) {
+            // do error handling
+        } else {
+            ReactDOM.render(React.createElement(CadastroNovoAssinante, { onCadastrarAssinante: onCadastrarAssinante }), document.querySelector('#rootNovoAssinante'));
+        }
+    });
+}
+
+function validaEmail(email) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+}
+
+function CadastraAssinante(nome, email, cpf) {
+    /*var ds = DatasetFactory.getDataset('ds_auxiliar_wesign', null, [
+        DatasetFactory.createConstraint("nome", nome, nome, ConstraintType.MUST),
+        DatasetFactory.createConstraint("email", email, email, ConstraintType.MUST),
+        DatasetFactory.createConstraint("cEmail", email, email, ConstraintType.MUST),
+        DatasetFactory.createConstraint("tipo", "E", "E", ConstraintType.MUST),
+        DatasetFactory.createConstraint("cpf", cpf, cpf, ConstraintType.MUST),
+        DatasetFactory.createConstraint("cCpf", cpf, cpf, ConstraintType.MUST),
+        DatasetFactory.createConstraint("titulo", "", "", ConstraintType.MUST),
+        DatasetFactory.createConstraint("empresa", "", "", ConstraintType.MUST),
+        DatasetFactory.createConstraint("metodo", "createSigner", "createSigner", ConstraintType.MUST)
+    ], null);
+
+    if (ds.values[0].Result == "OK") {
+
+    }*/
 }
