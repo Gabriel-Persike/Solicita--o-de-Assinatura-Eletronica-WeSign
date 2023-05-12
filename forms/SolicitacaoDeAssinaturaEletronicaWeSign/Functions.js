@@ -1,4 +1,5 @@
 ModalNovoAssinante = null;
+ModalAssinantes = null;
 
 function criaDocNoFluig(file) {
     return new Promise((resolve, reject) => {
@@ -35,7 +36,7 @@ function criaDocNoFluig(file) {
                         }
                         else {
                             console.log("### GEROU docID = " + res.values[0].Resultado);
-                            resolve(res.values[0].Resultado, nomeArquivo);
+                            resolve([res.values[0].Resultado, nomeArquivo]);
                         }
                     }
                 })
@@ -51,6 +52,7 @@ function AbreModalNovoAssinante(onCadastrarAssinante) {
         title: 'Cadastrar Novo Assinante',
         content: '<div id="rootNovoAssinante"></div>',
         id: 'ModalNovoAssinante',
+        size: 'full',
         actions: [{
             'label': 'Cadastrar Assinante',
             "classType": "btn-success",
@@ -74,19 +76,83 @@ function validaEmail(email) {
 }
 
 function CadastraAssinante(nome, email, cpf) {
-    /*var ds = DatasetFactory.getDataset('ds_auxiliar_wesign', null, [
-        DatasetFactory.createConstraint("nome", nome, nome, ConstraintType.MUST),
-        DatasetFactory.createConstraint("email", email, email, ConstraintType.MUST),
-        DatasetFactory.createConstraint("cEmail", email, email, ConstraintType.MUST),
-        DatasetFactory.createConstraint("tipo", "E", "E", ConstraintType.MUST),
-        DatasetFactory.createConstraint("cpf", cpf, cpf, ConstraintType.MUST),
-        DatasetFactory.createConstraint("cCpf", cpf, cpf, ConstraintType.MUST),
-        DatasetFactory.createConstraint("titulo", "", "", ConstraintType.MUST),
-        DatasetFactory.createConstraint("empresa", "", "", ConstraintType.MUST),
-        DatasetFactory.createConstraint("metodo", "createSigner", "createSigner", ConstraintType.MUST)
-    ], null);
+    return new Promise((resolve, reject) => {
+        var ds = DatasetFactory.getDataset('ds_auxiliar_wesign', null, [
+            DatasetFactory.createConstraint("nome", nome, nome, ConstraintType.MUST),
+            DatasetFactory.createConstraint("email", email, email, ConstraintType.MUST),
+            DatasetFactory.createConstraint("cEmail", email, email, ConstraintType.MUST),
+            DatasetFactory.createConstraint("tipo", "E", "E", ConstraintType.MUST),
+            DatasetFactory.createConstraint("cpf", cpf, cpf, ConstraintType.MUST),
+            DatasetFactory.createConstraint("cCpf", cpf, cpf, ConstraintType.MUST),
+            DatasetFactory.createConstraint("titulo", "", "", ConstraintType.MUST),
+            DatasetFactory.createConstraint("empresa", "", "", ConstraintType.MUST),
+            DatasetFactory.createConstraint("metodo", "createSigner", "createSigner", ConstraintType.MUST)
+        ], null);
 
-    if (ds.values[0].Result == "OK") {
+        if (ds.values[0].Result == "OK") {
+            resolve();
+        }
+        else {
+            reject();
+        }
 
-    }*/
+    });
+}
+
+function VerificaSeSolicitanteAprovadorDeAssinatura() {
+    DatasetFactory.getDataset("workflowColleagueRole", null, [
+        DatasetFactory.createConstraint("colleagueId", $("#solicitante").val(), $("#solicitante").val(), ConstraintType.MUST),
+        DatasetFactory.createConstraint("roleId", "aprovaAssinaturasE", "aprovaAssinaturasE", ConstraintType.MUST)
+    ], null, {
+        success: (ds => {
+            if (ds.values.length > 0) {
+                $("#SolicitanteAprovaSolicitacao").val("true");
+            } else {
+                $("#SolicitanteAprovaSolicitacao").val("false");
+            }
+        })
+    })
+}
+
+function ValidaAntesDeEnviar() {
+    if ($("#atividade").val() == 0 || $("#atividade").val() == 4) {
+        if ($("#docId").val() == "") {
+            FLUIGC.toast({
+                title: "Documento não Anexado!",
+                message: "",
+                type: "warning"
+            })
+
+            return false;
+        } else if ($("#jsonSigner").val() == "" || $("#jsonSigner").val() == "[]") {
+            FLUIGC.toast({
+                title: "Nenhum Assinante Inserido!",
+                message: "",
+                type: "warning"
+            })
+
+            return false;
+        }
+    } else if ($("#atividade").val() == 5) {
+        if ($("#hiddenAprovacao").val() == "") {
+            FLUIGC.toast({
+                title: "Nenhuma Decisão Selecionada!",
+                message: "",
+                type: "warning"
+            })
+
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function hex2a(hexx) {
+    var hex = hexx.toString();
+    var str = '';
+    for (var i = 0;
+        (i < hex.length && hex.substr(i, 2) !== '00'); i += 2)
+        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    return str;
 }

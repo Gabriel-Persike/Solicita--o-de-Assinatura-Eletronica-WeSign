@@ -4,13 +4,14 @@
       <companyId>1</companyId>
       <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
     </processDefinitionPK>
-    <processDescription>SolicitacaoDeAssinaturaEletronicaWeSign</processDescription>
+    <processDescription>Solicitacao De Assinatura Eletronica WeSign</processDescription>
     <instruction></instruction>
     <active>true</active>
     <publicProcess>false</publicProcess>
     <volumeId>Default</volumeId>
-    <categoryId></categoryId>
-    <managerEngineAllocationId></managerEngineAllocationId>
+    <categoryId>Documentos</categoryId>
+    <managerEngineAllocationId>Usuário</managerEngineAllocationId>
+    <managerEngineAllocationConfiguration>&lt;AssignmentController&gt;&lt;User&gt;gabriel.persike&lt;/User&gt;&lt;/AssignmentController&gt;</managerEngineAllocationConfiguration>
     <snapshotFrequency>0</snapshotFrequency>
     <baseDay>0</baseDay>
     <baseMonth>0</baseMonth>
@@ -27,11 +28,11 @@
   <ProcessDefinitionVersion>
     <processDefinitionVersionPK>
       <companyId>1</companyId>
-      <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
-      <version>1</version>
+      <processId>Solicitacao De Assinatura Eletronica WeSign</processId>
+      <version>18</version>
     </processDefinitionVersionPK>
     <versionDescription></versionDescription>
-    <formId>0</formId>
+    <formId>643039</formId>
     <editionMode>true</editionMode>
     <updateAttachmentsVersion>false</updateAttachmentsVersion>
     <controlsAttachmentsSecurity>false</controlsAttachmentsSecurity>
@@ -75,8 +76,8 @@
       <notifyAuthorityFollowUp>false</notifyAuthorityFollowUp>
       <notifyRequisitionerFollowUp>false</notifyRequisitionerFollowUp>
       <automatic>false</automatic>
-      <positionX>150</positionX>
-      <positionY>82</positionY>
+      <positionX>140</positionX>
+      <positionY>66</positionY>
       <forecastedEffortType>0</forecastedEffortType>
       <forecastedEffort>0</forecastedEffort>
       <notifyManagerFollowUp>false</notifyManagerFollowUp>
@@ -110,6 +111,8 @@
       <deadlineFieldName></deadlineFieldName>
       <joint>false</joint>
       <agreementPercentage>0</agreementPercentage>
+      <engineAllocationId>Pool Papel</engineAllocationId>
+      <engineAllocationConfiguration>&lt;AssignmentController&gt;&lt;Role&gt;aprovaAssinaturasE&lt;/Role&gt;&lt;/AssignmentController&gt;</engineAllocationConfiguration>
       <selectColleague>1</selectColleague>
       <initialState>false</initialState>
       <notifyAuthorityDelay>true</notifyAuthorityDelay>
@@ -151,6 +154,108 @@
         <companyId>1</companyId>
         <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
         <version>1</version>
+        <sequence>23</sequence>
+      </processStatePK>
+      <stateName>Solicitante Acompanha Assinatura</stateName>
+      <stateDescription>Solicitante Acompanha Assinatura</stateDescription>
+      <instruction></instruction>
+      <deadlineTime>0</deadlineTime>
+      <deadlineFieldName></deadlineFieldName>
+      <joint>false</joint>
+      <agreementPercentage>0</agreementPercentage>
+      <engineAllocationId>Executor Atividade</engineAllocationId>
+      <engineAllocationConfiguration>&lt;AssignmentController&gt;&lt;BaseActivity&gt;4&lt;/BaseActivity&gt;&lt;Returns&gt;Last&lt;/Returns&gt;&lt;/AssignmentController&gt;</engineAllocationConfiguration>
+      <selectColleague>1</selectColleague>
+      <initialState>false</initialState>
+      <notifyAuthorityDelay>true</notifyAuthorityDelay>
+      <notifyRequisitionerDelay>false</notifyRequisitionerDelay>
+      <allowanceAuthorityTime>3600</allowanceAuthorityTime>
+      <frequenceAuthorityTime>3600</frequenceAuthorityTime>
+      <allowanceRequisitionerTime>0</allowanceRequisitionerTime>
+      <frequenceRequisitionerTime>0</frequenceRequisitionerTime>
+      <transferAttachments>false</transferAttachments>
+      <subProcessId></subProcessId>
+      <formFolder>0</formFolder>
+      <notifyAuthorityFollowUp>true</notifyAuthorityFollowUp>
+      <notifyRequisitionerFollowUp>false</notifyRequisitionerFollowUp>
+      <automatic>false</automatic>
+      <positionX>440</positionX>
+      <positionY>42</positionY>
+      <forecastedEffortType>0</forecastedEffortType>
+      <forecastedEffort>0</forecastedEffort>
+      <notifyManagerFollowUp>false</notifyManagerFollowUp>
+      <notifyManagerDelay>false</notifyManagerDelay>
+      <allowanceManagerTime>0</allowanceManagerTime>
+      <frequenceManagerTime>0</frequenceManagerTime>
+      <inhibitTransfer>false</inhibitTransfer>
+      <periodId></periodId>
+      <stateType>0</stateType>
+      <bpmnType>80</bpmnType>
+      <signalId>0</signalId>
+      <counterSign>false</counterSign>
+      <openInstances>0</openInstances>
+      <noticeExpirationAuthorityTime>0</noticeExpirationAuthorityTime>
+      <noticeExpirationRequisitionerTime>0</noticeExpirationRequisitionerTime>
+      <noticeExpirationManagerTime>0</noticeExpirationManagerTime>
+      <destinationStates/>
+      <digitalSignature>false</digitalSignature>
+      <executionType>2</executionType>
+    </ProcessState>
+    <ProcessState>
+      <processStatePK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
+        <sequence>10</sequence>
+      </processStatePK>
+      <stateName>Decisão</stateName>
+      <stateDescription>Decisão</stateDescription>
+      <joint>false</joint>
+      <initialState>false</initialState>
+      <transferAttachments>false</transferAttachments>
+      <subProcessId></subProcessId>
+      <formFolder>0</formFolder>
+      <automatic>true</automatic>
+      <positionX>280</positionX>
+      <positionY>40</positionY>
+      <inhibitTransfer>false</inhibitTransfer>
+      <stateType>1</stateType>
+      <bpmnType>120</bpmnType>
+      <signalId>0</signalId>
+      <openInstances>0</openInstances>
+      <destinationStates/>
+      <digitalSignature>false</digitalSignature>
+    </ProcessState>
+    <ProcessState>
+      <processStatePK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
+        <sequence>15</sequence>
+      </processStatePK>
+      <stateName>Decisão</stateName>
+      <stateDescription>Decisão</stateDescription>
+      <joint>false</joint>
+      <initialState>false</initialState>
+      <transferAttachments>false</transferAttachments>
+      <subProcessId></subProcessId>
+      <formFolder>0</formFolder>
+      <automatic>true</automatic>
+      <positionX>460</positionX>
+      <positionY>185</positionY>
+      <inhibitTransfer>false</inhibitTransfer>
+      <stateType>1</stateType>
+      <bpmnType>120</bpmnType>
+      <signalId>0</signalId>
+      <openInstances>0</openInstances>
+      <destinationStates/>
+      <digitalSignature>false</digitalSignature>
+    </ProcessState>
+    <ProcessState>
+      <processStatePK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
         <sequence>7</sequence>
       </processStatePK>
       <stateName>Fim</stateName>
@@ -175,8 +280,8 @@
       <notifyAuthorityFollowUp>false</notifyAuthorityFollowUp>
       <notifyRequisitionerFollowUp>false</notifyRequisitionerFollowUp>
       <automatic>false</automatic>
-      <positionX>470</positionX>
-      <positionY>211</positionY>
+      <positionX>640</positionX>
+      <positionY>66</positionY>
       <forecastedEffortType>0</forecastedEffortType>
       <forecastedEffort>0</forecastedEffort>
       <notifyManagerFollowUp>false</notifyManagerFollowUp>
@@ -193,19 +298,146 @@
       <destinationStates/>
       <digitalSignature>false</digitalSignature>
     </ProcessState>
+    <ProcessState>
+      <processStatePK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
+        <sequence>11</sequence>
+      </processStatePK>
+      <stateName>Fim com cancelamento de processo</stateName>
+      <stateDescription>Fim com cancelamento de processo</stateDescription>
+      <instruction>Atividade final do processo</instruction>
+      <deadlineTime>0</deadlineTime>
+      <joint>false</joint>
+      <agreementPercentage>0</agreementPercentage>
+      <engineAllocationId></engineAllocationId>
+      <engineAllocationConfiguration></engineAllocationConfiguration>
+      <selectColleague>0</selectColleague>
+      <initialState>false</initialState>
+      <notifyAuthorityDelay>true</notifyAuthorityDelay>
+      <notifyRequisitionerDelay>false</notifyRequisitionerDelay>
+      <allowanceAuthorityTime>0</allowanceAuthorityTime>
+      <frequenceAuthorityTime>1</frequenceAuthorityTime>
+      <allowanceRequisitionerTime>0</allowanceRequisitionerTime>
+      <frequenceRequisitionerTime>0</frequenceRequisitionerTime>
+      <transferAttachments>false</transferAttachments>
+      <subProcessId></subProcessId>
+      <formFolder>0</formFolder>
+      <notifyAuthorityFollowUp>false</notifyAuthorityFollowUp>
+      <notifyRequisitionerFollowUp>false</notifyRequisitionerFollowUp>
+      <automatic>false</automatic>
+      <positionX>640</positionX>
+      <positionY>211</positionY>
+      <forecastedEffortType>0</forecastedEffortType>
+      <forecastedEffort>0</forecastedEffort>
+      <notifyManagerFollowUp>false</notifyManagerFollowUp>
+      <notifyManagerDelay>false</notifyManagerDelay>
+      <allowanceManagerTime>0</allowanceManagerTime>
+      <frequenceManagerTime>0</frequenceManagerTime>
+      <inhibitTransfer>false</inhibitTransfer>
+      <periodId></periodId>
+      <stateType>6</stateType>
+      <bpmnType>65</bpmnType>
+      <signalId>0</signalId>
+      <counterSign>false</counterSign>
+      <openInstances>0</openInstances>
+      <destinationStates/>
+      <digitalSignature>false</digitalSignature>
+    </ProcessState>
   </list>
-  <list/>
+  <list>
+    <ConditionProcessState>
+      <conditionProcessStatePK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <expressionOrder>1</expressionOrder>
+        <version>18</version>
+        <sequence>10</sequence>
+      </conditionProcessStatePK>
+      <condition></condition>
+      <destinationSequenceId>23</destinationSequenceId>
+      <conditionType>1</conditionType>
+    </ConditionProcessState>
+    <ConditionProcessState>
+      <conditionProcessStatePK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <expressionOrder>2</expressionOrder>
+        <version>18</version>
+        <sequence>10</sequence>
+      </conditionProcessStatePK>
+      <condition></condition>
+      <destinationSequenceId>5</destinationSequenceId>
+      <conditionType>1</conditionType>
+    </ConditionProcessState>
+    <ConditionProcessState>
+      <conditionProcessStatePK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <expressionOrder>1</expressionOrder>
+        <version>18</version>
+        <sequence>15</sequence>
+      </conditionProcessStatePK>
+      <condition></condition>
+      <destinationSequenceId>23</destinationSequenceId>
+      <conditionType>1</conditionType>
+    </ConditionProcessState>
+    <ConditionProcessState>
+      <conditionProcessStatePK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <expressionOrder>2</expressionOrder>
+        <version>18</version>
+        <sequence>15</sequence>
+      </conditionProcessStatePK>
+      <condition></condition>
+      <destinationSequenceId>11</destinationSequenceId>
+      <conditionType>1</conditionType>
+    </ConditionProcessState>
+    <ConditionProcessState>
+      <conditionProcessStatePK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <expressionOrder>3</expressionOrder>
+        <version>18</version>
+        <sequence>15</sequence>
+      </conditionProcessStatePK>
+      <condition></condition>
+      <destinationSequenceId>4</destinationSequenceId>
+      <engineAllocationConfiguration>&lt;AssignmentController&gt;&lt;BaseActivity&gt;4&lt;/BaseActivity&gt;&lt;Returns&gt;Last&lt;/Returns&gt;&lt;/AssignmentController&gt;</engineAllocationConfiguration>
+      <engineAllocationId>Executor Atividade</engineAllocationId>
+      <conditionType>1</conditionType>
+    </ConditionProcessState>
+  </list>
   <list>
     <ProcessLink>
       <processLinkPK>
         <companyId>1</companyId>
         <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
         <version>1</version>
-        <linkSequence>6</linkSequence>
+        <linkSequence>12</linkSequence>
       </processLinkPK>
       <actionLabel></actionLabel>
       <returnPermited>false</returnPermited>
       <initialStateSequence>4</initialStateSequence>
+      <finalStateSequence>10</finalStateSequence>
+      <returnLabel></returnLabel>
+      <name></name>
+      <automaticLink>false</automaticLink>
+      <defaultLink>false</defaultLink>
+      <type>0</type>
+    </ProcessLink>
+    <ProcessLink>
+      <processLinkPK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
+        <linkSequence>13</linkSequence>
+      </processLinkPK>
+      <actionLabel></actionLabel>
+      <returnPermited>false</returnPermited>
+      <initialStateSequence>10</initialStateSequence>
       <finalStateSequence>5</finalStateSequence>
       <returnLabel></returnLabel>
       <name></name>
@@ -218,17 +450,105 @@
         <companyId>1</companyId>
         <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
         <version>1</version>
-        <linkSequence>8</linkSequence>
+        <linkSequence>14</linkSequence>
+      </processLinkPK>
+      <actionLabel></actionLabel>
+      <returnPermited>false</returnPermited>
+      <initialStateSequence>10</initialStateSequence>
+      <finalStateSequence>23</finalStateSequence>
+      <returnLabel></returnLabel>
+      <name></name>
+      <automaticLink>false</automaticLink>
+      <defaultLink>false</defaultLink>
+      <type>0</type>
+    </ProcessLink>
+    <ProcessLink>
+      <processLinkPK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
+        <linkSequence>16</linkSequence>
       </processLinkPK>
       <actionLabel></actionLabel>
       <returnPermited>false</returnPermited>
       <initialStateSequence>5</initialStateSequence>
+      <finalStateSequence>15</finalStateSequence>
+      <returnLabel></returnLabel>
+      <name></name>
+      <automaticLink>false</automaticLink>
+      <defaultLink>false</defaultLink>
+      <type>0</type>
+    </ProcessLink>
+    <ProcessLink>
+      <processLinkPK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
+        <linkSequence>17</linkSequence>
+      </processLinkPK>
+      <actionLabel></actionLabel>
+      <returnPermited>false</returnPermited>
+      <initialStateSequence>15</initialStateSequence>
+      <finalStateSequence>23</finalStateSequence>
+      <returnLabel></returnLabel>
+      <name></name>
+      <automaticLink>false</automaticLink>
+      <defaultLink>false</defaultLink>
+      <type>0</type>
+    </ProcessLink>
+    <ProcessLink>
+      <processLinkPK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
+        <linkSequence>18</linkSequence>
+      </processLinkPK>
+      <actionLabel></actionLabel>
+      <returnPermited>false</returnPermited>
+      <initialStateSequence>15</initialStateSequence>
+      <finalStateSequence>11</finalStateSequence>
+      <returnLabel></returnLabel>
+      <name></name>
+      <automaticLink>false</automaticLink>
+      <defaultLink>false</defaultLink>
+      <type>0</type>
+    </ProcessLink>
+    <ProcessLink>
+      <processLinkPK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
+        <linkSequence>19</linkSequence>
+      </processLinkPK>
+      <actionLabel></actionLabel>
+      <returnPermited>false</returnPermited>
+      <initialStateSequence>23</initialStateSequence>
       <finalStateSequence>7</finalStateSequence>
       <returnLabel></returnLabel>
       <name></name>
       <automaticLink>false</automaticLink>
       <defaultLink>false</defaultLink>
       <type>0</type>
+    </ProcessLink>
+    <ProcessLink>
+      <processLinkPK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
+        <linkSequence>20</linkSequence>
+      </processLinkPK>
+      <actionLabel></actionLabel>
+      <returnPermited>false</returnPermited>
+      <initialStateSequence>15</initialStateSequence>
+      <finalStateSequence>4</finalStateSequence>
+      <returnLabel></returnLabel>
+      <name></name>
+      <automaticLink>false</automaticLink>
+      <defaultLink>false</defaultLink>
+      <type>0</type>
+      <movementTitle></movementTitle>
+      <movementDescription></movementDescription>
+      <movementAccessLinkDescription></movementAccessLinkDescription>
     </ProcessLink>
   </list>
   <list/>
@@ -241,11 +561,16 @@
         <version>1</version>
       </workflowProcessEventPK>
       <eventDescription>function beforeTaskSave(colleagueId, nextSequenceId, userList) {&#xd;
+    var atividade = getValue(&quot;WKNumState&quot;);&#xd;
 &#xd;
+    if (atividade == &quot;0&quot; || atividade == &quot;4&quot;) {&#xd;
+        hAPI.setCardValue(&quot;numProcess&quot;, getValue(&quot;WKNumProces&quot;));&#xd;
+    }&#xd;
 &#xd;
-&#xd;
+    if ((atividade == 5 &amp;&amp; hAPI.getCardValue(&quot;hiddenAprovacao&quot;) == &quot;Aprovar&quot;) || ((atividade == 0 || atividade == 4) &amp;&amp; hAPI.getCardValue(&quot;SolicitanteAprovaSolicitacao&quot;) == &quot;true&quot;)) {&#xd;
+        CriaAssinatura();&#xd;
+    }&#xd;
 }&#xd;
-&#xd;
 &#xd;
 function CriaAssinatura() {&#xd;
     var NomeArquivo = hAPI.getCardValue(&quot;docName&quot;);&#xd;
@@ -265,15 +590,15 @@ function CriaAssinatura() {&#xd;
         DatasetFactory.createConstraint(&quot;numSolic&quot;, getValue(&quot;WKNumProces&quot;), getValue(&quot;WKNumProces&quot;), ConstraintType.MUST)&#xd;
     ], null);&#xd;
 &#xd;
-    if (dsAux.rowsCount &gt; 0) {&#xd;
-        if (ds.getValue(0, &quot;Result&quot;) === &quot;OK&quot;) {&#xd;
-            return true;&#xd;
-        }&#xd;
+    if (ds.getValue(0, &quot;Result&quot;) == &quot;OK&quot;) {&#xd;
+      return true;&#xd;
     }&#xd;
-&#xd;
-    throw &quot;Erro ao Criar a Assinatura Eletrôncia!&quot;;&#xd;
+    else{&#xd;
+        log.error(ds.getValue(&quot;Erro ao enviar Assinatura Eletronica&quot;));&#xd;
+        log.error(ds.getValue(0, &quot;mensagem&quot;));&#xd;
+        throw &quot;Erro ao Criar a Assinatura Eletrôncia!&quot;;&#xd;
+    }&#xd;
 }&#xd;
-&#xd;
 &#xd;
 function BuscaNomeUsuario(CodUsuario) {&#xd;
     var ds = DatasetFactory.getDataset(&quot;colleague&quot;, [&quot;colleagueName&quot;], [&#xd;
@@ -283,14 +608,33 @@ function BuscaNomeUsuario(CodUsuario) {&#xd;
     return ds.getValue(0, &quot;colleagueName&quot;);&#xd;
 }</eventDescription>
     </WorkflowProcessEvent>
+    <WorkflowProcessEvent>
+      <workflowProcessEventPK>
+        <companyId>1</companyId>
+        <eventId>afterTaskSave</eventId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>1</version>
+      </workflowProcessEventPK>
+      <eventDescription>function afterTaskSave(colleagueId,nextSequenceId,userList){&#xd;
+&#xd;
+    var atividade = getValue(&quot;WKNumState&quot;);&#xd;
+    if ((atividade == 5 &amp;&amp; hAPI.getCardValue(&quot;hiddenAprovacao&quot;) == &quot;Aprovar&quot;) || ((atividade == 0 || atividade == 4) &amp;&amp; hAPI.getCardValue(&quot;SolicitanteAprovaSolicitacao&quot;) == &quot;true&quot;)) {&#xd;
+        var ds_upload = DatasetFactory.getDataset(&quot;ds_upload_wesign_manual&quot;, null, [&#xd;
+            DatasetFactory.createConstraint(&apos;codArquivo&apos;, hAPI.getCardValue(&quot;docId&quot;), hAPI.getCardValue(&quot;docId&quot;), ConstraintType.MUST)&#xd;
+        ], null);&#xd;
+        return true;&#xd;
+    &#xd;
+    }&#xd;
+}</eventDescription>
+    </WorkflowProcessEvent>
   </list>
   <list/>
   <list>
     <SwimLane>
       <color>FFFFFF</color>
       <height>290</height>
-      <width>831</width>
-      <positionX>10</positionX>
+      <width>701</width>
+      <positionX>60</positionX>
       <positionY>10</positionY>
       <stateName>Pool</stateName>
       <type>1</type>
@@ -305,8 +649,8 @@ function BuscaNomeUsuario(CodUsuario) {&#xd;
     <SwimLane>
       <color>9F9F9F</color>
       <height>145</height>
-      <width>801</width>
-      <positionX>40</positionX>
+      <width>671</width>
+      <positionX>90</positionX>
       <positionY>10</positionY>
       <stateName>Reporter</stateName>
       <type>2</type>
@@ -321,8 +665,8 @@ function BuscaNomeUsuario(CodUsuario) {&#xd;
     <SwimLane>
       <color>C0C0C0</color>
       <height>145</height>
-      <width>801</width>
-      <positionX>40</positionX>
+      <width>671</width>
+      <positionX>90</positionX>
       <positionY>155</positionY>
       <stateName>Assignee</stateName>
       <type>2</type>
@@ -342,12 +686,23 @@ function BuscaNomeUsuario(CodUsuario) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
-        <version>1</version>
-        <linkSequence>6</linkSequence>
+        <version>18</version>
+        <linkSequence>20</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
-      <positionX>166</positionX>
-      <positionY>228</positionY>
+      <positionX>428</positionX>
+      <positionY>284</positionY>
+    </ProcessLinkBend>
+    <ProcessLinkBend>
+      <processLinkBendPK>
+        <companyId>1</companyId>
+        <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+        <version>18</version>
+        <linkSequence>20</linkSequence>
+        <bendSequence>2</bendSequence>
+      </processLinkBendPK>
+      <positionX>157</positionX>
+      <positionY>284</positionY>
     </ProcessLinkBend>
   </list>
   <list/>
@@ -355,7 +710,104 @@ function BuscaNomeUsuario(CodUsuario) {&#xd;
   <list/>
   <list/>
   <list/>
+  <list>
+    <ProcessAppConfiguration>
+      <id>0</id>
+      <tenantId>0</tenantId>
+      <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+      <processVersion>18</processVersion>
+      <stateSequence>23</stateSequence>
+      <appKey>approval</appKey>
+      <appField>title</appField>
+      <description></description>
+    </ProcessAppConfiguration>
+    <ProcessAppConfiguration>
+      <id>0</id>
+      <tenantId>0</tenantId>
+      <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+      <processVersion>18</processVersion>
+      <stateSequence>23</stateSequence>
+      <appKey>approval</appKey>
+      <appField>description</appField>
+      <description></description>
+    </ProcessAppConfiguration>
+    <ProcessAppConfiguration>
+      <id>0</id>
+      <tenantId>0</tenantId>
+      <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+      <processVersion>18</processVersion>
+      <stateSequence>23</stateSequence>
+      <appKey>approval</appKey>
+      <appField>highlight</appField>
+      <description></description>
+    </ProcessAppConfiguration>
+    <ProcessAppConfiguration>
+      <id>0</id>
+      <tenantId>0</tenantId>
+      <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+      <processVersion>18</processVersion>
+      <stateSequence>23</stateSequence>
+      <appKey>approval</appKey>
+      <appField>approve</appField>
+      <description></description>
+    </ProcessAppConfiguration>
+    <ProcessAppConfiguration>
+      <id>0</id>
+      <tenantId>0</tenantId>
+      <processId>SolicitacaoDeAssinaturaEletronicaWeSign</processId>
+      <processVersion>18</processVersion>
+      <stateSequence>23</stateSequence>
+      <appKey>approval</appKey>
+      <appField>reject</appField>
+      <description></description>
+    </ProcessAppConfiguration>
+  </list>
   <list/>
-  <list/>
-  <list/>
+  <list>
+    <ConditionProcessAutomaticRules>
+      <sequence>10</sequence>
+      <expressionOrder>1</expressionOrder>
+      <ruleOrder>1</ruleOrder>
+      <field>SolicitanteAprovaSolicitacao</field>
+      <value>true</value>
+      <operator>1</operator>
+      <valueType>1</valueType>
+    </ConditionProcessAutomaticRules>
+    <ConditionProcessAutomaticRules>
+      <sequence>10</sequence>
+      <expressionOrder>2</expressionOrder>
+      <ruleOrder>1</ruleOrder>
+      <field>SolicitanteAprovaSolicitacao</field>
+      <value>false</value>
+      <operator>1</operator>
+      <valueType>1</valueType>
+    </ConditionProcessAutomaticRules>
+    <ConditionProcessAutomaticRules>
+      <sequence>15</sequence>
+      <expressionOrder>1</expressionOrder>
+      <ruleOrder>1</ruleOrder>
+      <field>hiddenAprovacao</field>
+      <value>Aprovar</value>
+      <operator>1</operator>
+      <valueType>1</valueType>
+    </ConditionProcessAutomaticRules>
+    <ConditionProcessAutomaticRules>
+      <sequence>15</sequence>
+      <expressionOrder>2</expressionOrder>
+      <ruleOrder>1</ruleOrder>
+      <field>hiddenAprovacao</field>
+      <value>Cancelar</value>
+      <operator>1</operator>
+      <valueType>1</valueType>
+    </ConditionProcessAutomaticRules>
+    <ConditionProcessAutomaticRules>
+      <sequence>15</sequence>
+      <expressionOrder>3</expressionOrder>
+      <ruleOrder>1</ruleOrder>
+      <field>hiddenAprovacao</field>
+      <value>Retornar</value>
+      <operator>1</operator>
+      <valueType>1</valueType>
+    </ConditionProcessAutomaticRules>
+  </list>
 </list>

@@ -1,9 +1,13 @@
 function beforeTaskSave(colleagueId, nextSequenceId, userList) {
+    var atividade = getValue("WKNumState");
 
-    if (hAPI.getCardValue("atividade") == 5) {
-        CriaAssinatura();
+    if (atividade == "0" || atividade == "4") {
+        hAPI.setCardValue("numProcess", getValue("WKNumProces"));
     }
 
+    if ((atividade == 5 && hAPI.getCardValue("hiddenAprovacao") == "Aprovar") || ((atividade == 0 || atividade == 4) && hAPI.getCardValue("SolicitanteAprovaSolicitacao") == "true")) {
+        CriaAssinatura();
+    }
 }
 
 function CriaAssinatura() {
@@ -24,15 +28,15 @@ function CriaAssinatura() {
         DatasetFactory.createConstraint("numSolic", getValue("WKNumProces"), getValue("WKNumProces"), ConstraintType.MUST)
     ], null);
 
-    if (dsAux.rowsCount > 0) {
-        if (ds.getValue(0, "Result") === "OK") {
-            return true;
-        }
+    if (ds.getValue(0, "Result") == "OK") {
+      return true;
     }
-
-    throw "Erro ao Criar a Assinatura Eletrôncia!";
+    else{
+        log.error(ds.getValue("Erro ao enviar Assinatura Eletronica"));
+        log.error(ds.getValue(0, "mensagem"));
+        throw "Erro ao Criar a Assinatura Eletrôncia!";
+    }
 }
-
 
 function BuscaNomeUsuario(CodUsuario) {
     var ds = DatasetFactory.getDataset("colleague", ["colleagueName"], [

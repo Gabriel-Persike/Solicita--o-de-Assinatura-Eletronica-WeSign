@@ -6,15 +6,51 @@ const Select = antd.Select;
 function AppRoot() {
     const [Assinantes, setAssinantes] = useState([]);
     const [listAssinantes, setlistAssinantes] = useState([]);
+    const [RadioAprovacao, setRadioAprovacao] = useState("");
+
+    useEffect(async () => {
+        setlistAssinantes(await BuscaListaAssinantes());
+
+        var signers = $("#jsonSigner").val();
+        if (signers) {
+            setAssinantes(JSON.parse(signers));
+        }
+    }, []);
 
     function verificaSeAssinanteJaCadastrado(Cpf) {
-        var found = listAssinantes.find(e => e.Cpf == Cpf);
+        var found = listAssinantes.find((e) => e.Cpf == Cpf);
         if (found) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
+    }
+
+    function BuscaListaAssinantes() {
+        return new Promise((resolve, reject) => {
+            DatasetFactory.getDataset("ds_wesign_assinantes", null, [], null, {
+                success: (ds) => {
+                    console.log(ds);
+
+                    var assinantes = [];
+                    for (const assinante of ds.values) {
+                        console.log(assinante);
+                        assinantes.push({
+                            Nome: assinante.nome,
+                            Email: hex2a(assinante.email),
+                            Cpf: hex2a(assinante.cpf)
+                        });
+                    }
+                    console.log(assinantes);
+                    resolve(assinantes);
+                }
+            });
+        });
+    }
+
+    function handleChangeInputAprovacao(value) {
+        setRadioAprovacao(value);
+        $("#hiddenAprovacao").val(value);
     }
 
     function handleAdicionarAssinantes(assinante) {
@@ -27,18 +63,17 @@ function AppRoot() {
                 message: "",
                 type: "warning"
             });
-        }
-        else {
+        } else {
             assinante = {
                 nome: assinante[0],
                 email: assinante[1],
                 cpf: assinante[2],
                 tipo: "E",
-                status: 'Pendente'
-            }
+                status: "Pendente"
+            };
 
             //Verifica se o assinante ja esta na Lista de Assinantes
-            var found = Assinantes.find(e => e.cpf == assinante.cpf);
+            var found = Assinantes.find((e) => e.cpf == assinante.cpf);
 
             if (!found) {
                 //Caso não esteja insere o assinante na Lista
@@ -54,12 +89,11 @@ function AppRoot() {
                 });
             }
         }
-
     }
 
     function handleExcluirAssinante(cpf) {
         var nextAssinantes = Assinantes.slice();
-        nextAssinantes= nextAssinantes.filter((Assinante) => Assinante.cpf != cpf);
+        nextAssinantes = nextAssinantes.filter((Assinante) => Assinante.cpf != cpf);
         $("#jsonSigner").val(JSON.stringify(nextAssinantes));
         setAssinantes(nextAssinantes);
     }
@@ -71,14 +105,24 @@ function AppRoot() {
                 message: "",
                 type: "warning"
             });
+        } else {
+            CadastraAssinante(e.Nome, e.Email, e.Cpf)
+                .then(async () => {
+                    FLUIGC.toast({
+                        title: "Assinante Cadastrado com Sucesso!",
+                        message: "",
+                        type: "success"
+                    });
+                    setlistAssinantes(await BuscaListaAssinantes());
+                })
+                .catch(() => {
+                    FLUIGC.toast({
+                        title: "Erro ao Cadastrar Assinante!",
+                        message: "",
+                        type: "warning"
+                    });
+                });
         }
-        else {
-            var nextListAssinantes = listAssinantes.slice();
-            nextListAssinantes.push(e);
-            setlistAssinantes(nextListAssinantes);
-            CadastraAssinante(e.Nome, e.Email, e.Cpf);
-        }
-
     }
 
     function renderOptionsAssinantes() {
@@ -94,50 +138,85 @@ function AppRoot() {
     }
 
     return (
-        <div className="panel panel-primary">
-            <div className="panel-heading">
-                <h3 className="panel-title">Assinatura Eletrônica</h3>
-            </div>
-            <div className="panel-body">
-                <div className="row">
-                    <div className="col-md-6">
-                        <AnexadorDeDocumentos />
-                    </div>
-                    <div className="col-md-6">
-                        <SelecionadorDeAssinantes Assinantes={Assinantes} onAdicionarAssinante={(assinante) => handleAdicionarAssinantes(assinante)} onExcluirAssinante={(e) => handleExcluirAssinante(e)} onCadastrarAssinante={(e) => handleCadastrarAssinante(e)} listaAssinantes={renderOptionsAssinantes()} />
-                        <br />
+        <>
+            <div className="panel panel-primary">
+                <div className="panel-heading">
+                    <h3 className="panel-title">Assinatura Eletrônica</h3>
+                </div>
+                <div className="panel-body">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <AnexadorDeDocumentos />
+                        </div>
+                        <div className="col-md-6">
+                            <SelecionadorDeAssinantes Assinantes={Assinantes} onAdicionarAssinante={(assinante) => handleAdicionarAssinantes(assinante)} onExcluirAssinante={(e) => handleExcluirAssinante(e)} onCadastrarAssinante={(e) => handleCadastrarAssinante(e)} listaAssinantes={renderOptionsAssinantes()} />
+                            <br />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <br />
+
+            {$("#atividade").val() == "5" && (
+                <div className="panel panel-primary">
+                    <div className="panel-heading">
+                        <h3 className="panel-title">Aprovação</h3>
+                    </div>
+                    <div className="panel-body">
+                        <div style={{ textAlign: "center" }}>
+                            <label htmlFor="radioAprovar">
+                                <input type="radio" name="radioAprovacao" id="radioAprovar" value={"Aprovar"} checked={RadioAprovacao == "Aprovar"} onChange={() => handleChangeInputAprovacao("Aprovar")} />
+                                Aprovar
+                            </label>
+                            <label htmlFor="radioRetornar" style={{ marginLeft: "20px", marginRight: "20px" }}>
+                                <input type="radio" name="radioAprovacao" id="radioRetornar" value={"Retornar"} checked={RadioAprovacao == "Retornar"} onChange={() => handleChangeInputAprovacao("Retornar")} />
+                                Retornar
+                            </label>
+                            <label htmlFor="radioCancelar">
+                                <input type="radio" name="radioAprovacao" id="radioCancelar" value={"Cancelar"} checked={RadioAprovacao == "Cancelar"} onChange={() => handleChangeInputAprovacao("Cancelar")} />
+                                Cancelar
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            )}
+            <br />
+            {$("#atividade").val() == "23" && <AssinaturaEletronica  />}
+        </>
     );
 }
 
 function AnexadorDeDocumentos() {
     const [DescricaoDocumento, setDescricaoDocumento] = useState("");
 
+    useEffect(() => {
+        setDescricaoDocumento($("#docName").val());
+    }, []);
+
     function handleOnChangeFile(e) {
         setDescricaoDocumento("Carregando.....");
-
-        setTimeout(() => {
-            setDescricaoDocumento(e.target.files[0].name);
-        }, 2000);
-
-        /*criaDocNoFluig(e.target.files[0]).then((result)={
-            $("#docId").val(result[0]);
-            setDescricaoDocumento(result[1]);
-        }).catch();*/
+        criaDocNoFluig(e.target.files[0])
+            .then((result) => {
+                console.log();
+                $("#docId").val(result[0]);
+                $("#docName").val(result[1]);
+                setDescricaoDocumento(result[1]);
+            })
+            .catch();
     }
 
     return (
         <div>
             <label htmlFor="">Selecione o Documento: </label>
             <br />
-            <a className="file-input-wrapper btn btn-primary">
-                <i className="flaticon flaticon-upload icon-sm"></i>
-                <span>Publicar documento</span>
-                <input type="file" className="btn btn-default btn-sm btn-block" title="Carregar documentos" onChange={(e) => handleOnChangeFile(e)} />
-            </a>
+            {($("#atividade").val() == "0" || $("#atividade").val() == "4") && (
+                <a className="file-input-wrapper btn btn-primary">
+                    <i className="flaticon flaticon-upload icon-sm"></i>
+                    <span>Publicar documento</span>
+                    <input type="file" className="btn btn-default btn-sm btn-block" title="Carregar documentos" onChange={(e) => handleOnChangeFile(e)} />
+                </a>
+            )}
+
             <span style={{ marginLeft: "10px" }}>{DescricaoDocumento}</span>
         </div>
     );
@@ -147,12 +226,14 @@ function Assinante({ nome, email, cpf, onExcluirAssinante }) {
     return (
         <div className="card" style={{ borderColor: "gray" }}>
             <div className="card-body">
-                <h3 class="card-title">{nome}</h3>
-                <p class="card-text">{email}</p>
-                <p class="card-text">{cpf}</p>
-                <button className="btn btn-danger" onClick={() => onExcluirAssinante(cpf)}>
-                    Remover <i class="flaticon flaticon-trash icon-sm" aria-hidden="true"></i>
-                </button>
+                <h3 className="card-title">{nome}</h3>
+                <p className="card-text">{email}</p>
+                <p className="card-text">{cpf}</p>
+                {($("#atividade").val() == "0" || $("#atividade").val() == "4") && (
+                    <button className="btn btn-danger" onClick={() => onExcluirAssinante(cpf)}>
+                        Remover <i className="flaticon flaticon-trash icon-sm" aria-hidden="true"></i>
+                    </button>
+                )}
             </div>
         </div>
     );
@@ -168,17 +249,24 @@ function SelecionadorDeAssinantes({ Assinantes, onAdicionarAssinante, onExcluirA
 
     return (
         <div>
-            <label htmlFor="">Selecione o assinante: </label>
-
-            <div style={{ display: "flex", alignItems: "center" }}>
-                <Select style={{ width: "100%" }} options={listaAssinantes} value={AssinanteSelecionado} onChange={(e) => setAssinanteSelecionado(e)} filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())} showSearch />
-                <button className="btn btn-success" onClick={(e) => { onAdicionarAssinante(AssinanteSelecionado); setAssinanteSelecionado(""); }}>
-                    Selecionar
-                </button>
-                <button className="btn btn-info" onClick={() => AbreModalNovoAssinante(onCadastrarAssinante)}>
-                    Cadastrar Novo
-                </button>
-            </div>
+            <label htmlFor="">Selecione o Assinante: </label>
+            {($("#atividade").val() == "0" || $("#atividade").val() == "4") && (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <Select style={{ width: "100%" }} options={listaAssinantes} value={AssinanteSelecionado} onChange={(e) => setAssinanteSelecionado(e)} filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())} showSearch />
+                    <button
+                        className="btn btn-success"
+                        onClick={(e) => {
+                            onAdicionarAssinante(AssinanteSelecionado);
+                            setAssinanteSelecionado("");
+                        }}
+                    >
+                        Selecionar
+                    </button>
+                    <button className="btn btn-info" onClick={() => AbreModalNovoAssinante(onCadastrarAssinante)}>
+                        Cadastrar Novo
+                    </button>
+                </div>
+            )}
             <br />
 
             {renderListaAssinantes()}
@@ -230,8 +318,7 @@ class CadastroNovoAssinante extends React.Component {
                 message: "",
                 type: "warning"
             });
-        }
-        else {
+        } else {
             console.log("Cadastrar");
             this.props.onCadastrarAssinante({
                 Nome: this.state.Nome.trim(),
@@ -339,4 +426,203 @@ function CpfInput({ onChange, value }) {
             <input type="text" id="cpf" name="cpf" value={value} onChange={handleCpfChange} onBlur={handleBlur} maxLength="14" className="form-control" />
         </div>
     );
-};
+}
+
+function AssinaturaEletronica() {
+    const [Assinatura, setAssinatura] = useState({
+        NomeArquivo: "",
+        ChaveArquivo: "",
+        jsonAssinantes: "",
+        DataEnvio: "",
+        HorarioEnvio: "",
+        Status: ""
+    });
+    const [UrlDocumento, setUrlDocumento] = useState("");
+
+    const [UrlAnexo, setUrlAnexo] = useState("");
+    useEffect(() => {
+        BuscaAssinatura($("#numProcess").val()).then((assinatura) => setAssinatura(assinatura));
+        BuscaDocumentoFluig().then((url) => setUrlDocumento(url));
+        BuscaDocumentoAnexo().then((url) => setUrlAnexo(url));
+    }, []);
+
+    function BuscaDocumentoFluig() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: "http://fluig.castilho.com.br:1010" + "/api/public/2.0/documents/getDownloadURL/" + $("#docId").val(), //Prod
+                //url: "http://homologacao.castilho.com.br:2020" + "/api/public/2.0/documents/getDownloadURL/" + id,//Homolog
+                contentType: "application/json",
+                method: "GET",
+                success: function (retorno) {
+                    resolve(retorno.content);
+                },
+                error: function (e, x) {
+                    FLUIGC.toast({
+                        title: "",
+                        message: "Erro ao buscar documento: " + e,
+                        type: "warning"
+                    });
+                    reject();
+                }
+            });
+        });
+    }
+
+    function BuscaDocumentoAnexo() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: "http://fluig.castilho.com.br:1010" + "/api/public/ecm/document/" + $("#docId").val() + "/1000", //Prod
+                //url: "http://homologacao.castilho.com.br:2020" + "/api/public/2.0/documents/getDownloadURL/" + id,//Homolog
+                contentType: "application/json",
+                method: "GET",
+                success: function (retorno) {
+                    //console.log(retorno)
+                    resolve(retorno.content.attachments[0].downloadURL);
+                },
+                error: function (e, x) {
+                    FLUIGC.toast({
+                        title: "",
+                        message: "Erro ao buscar documento: " + e,
+                        type: "warning"
+                    });
+                    reject();
+                }
+            });
+        });
+    }
+
+    function BuscaAssinatura(numSolic) {
+        return new Promise((resolve, reject) => {
+            DatasetFactory.getDataset("ds_form_aux_wesign", null, [DatasetFactory.createConstraint("numSolic", numSolic, numSolic, ConstraintType.MUST)], null, {
+                success: (ds) => {
+                    if (ds.values.length > 0) {
+                        var assinatura = {
+                            NomeArquivo: ds.values[0].nmArquivo,
+                            ChaveArquivo: ds.values[0].chaveArquivo,
+                            jsonAssinantes: JSON.parse(ds.values[0].jsonSigners),
+                            DataEnvio: ds.values[0].dataEnvio,
+                            HorarioEnvio: ds.values[0].horaEnvio,
+                            Status: ds.values[0].statusAssinatura
+                        };
+                        console.log(assinatura);
+                        $("#hiddenStatusDocumento").val(ds.values[0].statusAssinatura);
+                        resolve(assinatura);
+                    } else {
+                        FLUGIC.toast({
+                            title: "Assinatura não Encontrada!",
+                            message: "",
+                            type: "warning"
+                        });
+                        reject();
+                    }
+                }
+            });
+        });
+    }
+
+    function handleAbreModal() {
+        ModalAssinantes = FLUIGC.modal(
+            {
+                title: NomeArquivo,
+                content: '<div id="rootAssinantes"></div>',
+                id: "ModalAssinantes",
+                size: "full",
+                actions: [
+                    {
+                        label: "Cancelar",
+                        autoClose: true
+                    }
+                ]
+            },
+            function (err, data) {
+                if (err) {
+                    // do error handling
+                } else {
+                    ReactDOM.render(React.createElement(ListaAssinantes, { jsonAssinantes: Assinatura.jsonAssinantes }), document.querySelector("#rootAssinantes"));
+                }
+            }
+        );
+    }
+
+    return (
+        <div className="panel panel-primary">
+            <div className="panel-heading">
+                <h3 className="panel-title">Assinatura</h3>
+            </div>
+            <div className="panel-body">
+                <table className="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Arquivo</th>
+                            <th>Assinantes</th>
+                            <th>Data de Envio</th>
+                            <th>Horário de Envio</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a target="_blank" href={UrlDocumento}>
+                                    {Assinatura.NomeArquivo}
+                                </a>
+                            </td>
+                            <td style={{ textAlign: "center" }}>
+                                <button type="button" className="btn btn-primary" onClick={() => handleAbreModal()}>
+                                    Assinantes {"(" + Assinatura.jsonAssinantes.length + ")"}
+                                </button>
+                            </td>
+                            <td>{Assinatura.DataEnvio}</td>
+                            <td>{Assinatura.HorarioEnvio}</td>
+                            <td>{Assinatura.Status}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                {Assinatura.Status == "Assinado" && (
+                    <div style={{ textAlign: "center" }}>
+                        <a target="_blank" href={UrlAnexo} className="btn btn-success">
+                            Baixar Versão Assinada
+                        </a>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
+
+function ListaAssinantes({ jsonAssinantes }) {
+    console.log(jsonAssinantes);
+    return (
+        <table className="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>CPF</th>
+                    <th>Status</th>
+                    <th>Link para Assinatura</th>
+                </tr>
+            </thead>
+            <tbody>
+                {jsonAssinantes.map((Assinante) => {
+                    return (
+                        <tr>
+                            <td>{Assinante.nome}</td>
+                            <td>{hex2a(Assinante.email)}</td>
+                            <td>{hex2a(Assinante.cpf)}</td>
+                            <td>
+                                <span className={"btn " + (Assinante.status == "Assinado" ? "btn-success" : "btn-warning")}>{Assinante.status}</span>
+                            </td>
+                            <td>
+                                <a href={Assinante.signUrl} target="_blank">
+                                    {Assinante.signUrl}
+                                </a>
+                            </td>
+                        </tr>
+                    );
+                })}
+            </tbody>
+        </table>
+    );
+}
